@@ -3,8 +3,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import { User } from './users/user.entity'; 
-import { UsersController } from './users/controllers/users.controller';
-import { UsersService } from './users/services/user.services';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+
+
 
 
 @Module({
@@ -24,8 +26,9 @@ import { UsersService } from './users/services/user.services';
       }),
       inject: [ConfigService],
     }),
+    UsersModule, AuthModule
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

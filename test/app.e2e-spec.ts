@@ -16,9 +16,9 @@ describe('AppController (e2e)', () => {
 
   beforeAll(async () => {
     app = await NestFactory.create(AppModule, { cors: true });
-    await app.listen(3000);
+    await app.listen(4242);
 
-    pactum.request.setBaseUrl('http://localhost:3000');
+    pactum.request.setBaseUrl('http://localhost:4242');
   });
 
   afterAll(async () => {
@@ -29,9 +29,9 @@ describe('AppController (e2e)', () => {
 
   new DayOneTesting(app).routeTest()
   new DayTwoPartOneTesting(app).routeTest()
-  new DayTwoPartTwoTesting(app).routeTest()
-  new DayThreeTesting(app).routeTest()
-  new DayFourTesting(app).routeTest()
-  new DayFiveTesting(app).routeTest()
-  new DaySixPartOneTesting(app).routeTest()
+  // new DayTwoPartTwoTesting(app).routeTest()
+  // new DayThreeTesting(app).routeTest()
+  // new DayFourTesting(app).routeTest()
+  // new DayFiveTesting(app).routeTest()
+  // new DaySixPartOneTesting(app).routeTest()
 });
