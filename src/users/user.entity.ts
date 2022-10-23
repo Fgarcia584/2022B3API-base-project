@@ -1,11 +1,8 @@
 import { Exclude } from "class-transformer"
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { role } from "../auth/roles.enum"
 
-export enum role {
-  Employee= 'Employee',
-  Admin= 'Admin',
-  ProjectManager = 'ProjectManager',
-}
+
 
 
 @Entity()

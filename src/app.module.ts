@@ -5,6 +5,8 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import { User } from './users/user.entity'; 
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ProjectModule } from './projects/project.module';
+import { Project } from './projects/project.entity';
 
 
 
@@ -21,12 +23,12 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User],
+        entities: [User, Project],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
-    UsersModule, AuthModule
+    UsersModule, AuthModule , ProjectModule
   ],
   controllers: [],
   providers: [],
