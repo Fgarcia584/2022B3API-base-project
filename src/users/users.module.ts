@@ -8,6 +8,7 @@ import { AuthService } from '../auth/services/auth.service';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy';
 import { LocalStrategy } from '../auth/strategies/local.strategy';
 
+
 @Module({
   imports: [TypeOrmModule.forFeature([User])], // ProjectModule
   providers: [UsersService, AuthService, JwtService, LocalStrategy, JwtStrategy],

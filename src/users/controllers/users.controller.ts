@@ -6,7 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
 import { AuthService } from '../../auth/services/auth.service';
-import { UserCheckUuidDto } from '../dto/UserCheckUuis.dto';
+import { UserCheckUuidDto } from '../dto/UserCheckUuid.dto';
 
 @Controller('users')
 @UseInterceptors(ClassSerializerInterceptor)
