@@ -2,9 +2,7 @@ import { Body, Controller, Get, Post, Request, UsePipes, ValidationPipe, UseGuar
 import { UserDto } from '../dto/user.dto';
 import { UsersService } from '../services/user.services';
 import { User } from '../user.entity';
-import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserCheckUuidDto } from '../dto/UserCheckUuid.dto';
 

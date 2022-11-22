@@ -1,0 +1,43 @@
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository, Between } from "typeorm";
+import { Project } from "../../projects/project.entity";
+import { User } from "../../users/user.entity";
+import { ProjectUser } from "../project-users.entity";
+
+@Injectable()
+export class ProjectUsersService {
+  constructor(
+    @InjectRepository(ProjectUser)
+    private projectUsersRepository: Repository<ProjectUser>,
+  ) {}
+
+  findAllProjectUsers(): Promise<ProjectUser[]> {
+    return this.projectUsersRepository.find();
+  }
+  
+  findOneOfUser(user: User): Promise<ProjectUser[]> {
+    return this.projectUsersRepository.find({ where : { user }});
+  }
+
+  findProjectUsersById(id: string): Promise<ProjectUser> {
+    return this.projectUsersRepository.findOneBy({ id});
+  }
+
+  findMyProjects(user: User): Promise<ProjectUser[]> {
+    return this.projectUsersRepository.find({ where: { user } });
+  }
+
+  isInProject(user: User, project: Project): Promise<ProjectUser> {
+    return this.projectUsersRepository.findOneBy({ user, project });
+  }
+
+  checkBetweenDates(projectUser: ProjectUser): Promise<ProjectUser[]> {
+    return this.projectUsersRepository.find({ where : { startDate: Between(projectUser.startDate, projectUser.endDate), endDate: Between(projectUser.startDate, projectUser.endDate) }});
+  }
+
+  create(projectUser: ProjectUser): Promise<ProjectUser> {
+    let project = this.projectUsersRepository.create(projectUser);
+    return this.projectUsersRepository.save(project);
+  }
+}

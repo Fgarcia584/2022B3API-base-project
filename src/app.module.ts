@@ -4,9 +4,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import { User } from './users/user.entity'; 
 import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 import { ProjectModule } from './projects/project.module';
 import { Project } from './projects/project.entity';
+import { ProjectUsersModule } from './project-users/project-users.module';
+import { ProjectUser } from './project-users/project-users.entity';
+import { EventModule } from './events/event.module';
 
 
 
@@ -23,12 +25,12 @@ import { Project } from './projects/project.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, Project],
+        entities: [User, Project, ProjectUser, Event],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
-    UsersModule, AuthModule , ProjectModule
+    UsersModule, ProjectModule , ProjectUsersModule , EventModule
   ],
   controllers: [],
   providers: [],

@@ -1,4 +1,4 @@
-import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsString, isUUID, MinLength } from "class-validator"
+import { IsEmail, IsIn, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator"
 import { role } from "../../auth/roles.enum"
 
 

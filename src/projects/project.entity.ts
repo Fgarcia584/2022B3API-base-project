@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne } from "typeorm"
 import { User } from "../users/user.entity"
 
 @Entity()
@@ -14,6 +14,9 @@ export class Project {
     
     @OneToOne(() => User, (user) => user.id)
     referringEmployeeId!: string
+
+    @ManyToOne(type => User, user => user.projects)
+    referringEmployee !: User;
 
 }
 

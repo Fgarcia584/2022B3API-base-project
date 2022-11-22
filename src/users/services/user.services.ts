@@ -30,9 +30,6 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { username: username } });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
-  }
 
   createUser(body: UserDto): Promise<User> {
     const newUser = this.usersRepository.create(body);

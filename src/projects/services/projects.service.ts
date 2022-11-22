@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { ApiUnauthorizedResponse } from "@nestjs/swagger";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Project } from "../project.entity";
@@ -24,8 +23,7 @@ export class ProjectsService {
   }
 
   public async createProject(project: Project): Promise<Project> {
-    this.projectsRepository.create(project); 
-    return await this.projectsRepository.save(project);
+    return this.projectsRepository.save(project);
   }
 
 
