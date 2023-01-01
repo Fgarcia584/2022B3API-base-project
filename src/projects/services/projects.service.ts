@@ -19,10 +19,11 @@ export class ProjectsService {
   }
 
   public async findProjectById(id: string): Promise<Project | undefined> {
-    return await this.projectsRepository.findOne({ where: { id: id } } );
+    return await this.projectsRepository.findOneBy({id});
   }
 
   public async createProject(project: Project): Promise<Project> {
+    this.projectsRepository.create(project);
     return this.projectsRepository.save(project);
   }
 

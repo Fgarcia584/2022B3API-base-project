@@ -4,7 +4,7 @@ import { User } from "../users/user.entity";
 @Entity()
 export class Event {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column({ type: "date", nullable: false })
   date!: Date;
@@ -22,6 +22,6 @@ export class Event {
   @Column({ type: "varchar", nullable: false })
   userId!: string;
 
-  // @ManyToOne(type => User, user => user.events)
-  // user!: User;
+  @ManyToOne(type => User, user => user.events)
+  user!: User;
 }

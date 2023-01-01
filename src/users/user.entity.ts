@@ -32,8 +32,8 @@ export class User {
     @OneToMany(type => ProjectUser, projectUser => projectUser.user)
     projectUser!: ProjectUser;
 
-    // @OneToMany(type => Event, event => event.user)
-    // events!: Event[];
+    @OneToMany(type => Event, event => event.user)
+    events!: Event[];
 }
 
 

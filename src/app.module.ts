@@ -30,9 +30,9 @@ import { EventModule } from './events/event.module';
       }),
       inject: [ConfigService],
     }),
-    UsersModule, ProjectModule , ProjectUsersModule , EventModule
+    UsersModule,ProjectModule,ProjectUsersModule,EventModule
   ],
-  controllers: [],
-  providers: [],
+  controllers: [ ],
+  providers: [ ],
 })
 export class AppModule {}

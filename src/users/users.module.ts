@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthService } from '../auth/services/auth.service';
 import { JwtStrategy } from '../auth/strategies/jwt.strategy';
 import { LocalStrategy } from '../auth/strategies/local.strategy';
+import { Event } from '../events/event.entity';
 
 
 @Module({
