@@ -34,13 +34,13 @@ export class EventService {
     return this.eventRepository.save(event);
   }
 
-  // isEventToday(event: Event, user: User): Promise<Event[]> {
-  //   return this.eventRepository.find({ where : { date: event.date, user }});
-  // }
+  isEventToday(event: Event, user: User): Promise<Event[]> {
+    return this.eventRepository.find({ where : { date: event.date, user }});
+  }
 
-  // isRemoteWeek(event: Event, user: User): Promise<Event[]> {
-  //   return this.eventRepository.find({ where : { user, type: "RemoteWork" }});
-  // }
+  isRemoteWeek(event: Event, user: User): Promise<Event[]> {
+    return this.eventRepository.find({ where : { user, type: "RemoteWork" }});
+  }
 
 
 }

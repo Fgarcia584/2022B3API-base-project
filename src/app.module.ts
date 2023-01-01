@@ -9,6 +9,7 @@ import { Project } from './projects/project.entity';
 import { ProjectUsersModule } from './project-users/project-users.module';
 import { ProjectUser } from './project-users/project-users.entity';
 import { EventModule } from './events/event.module';
+import { Event } from './events/event.entity';
 
 
 
