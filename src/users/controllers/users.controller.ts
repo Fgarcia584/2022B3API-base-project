@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, UsePipes, ValidationPipe, UseGuards, Req, Param, UseInterceptors, ClassSerializerInterceptor, HttpException, HttpStatus, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UsePipes, ValidationPipe, UseGuards, Req, Param, UseInterceptors, ClassSerializerInterceptor, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { UserDto } from '../dto/user.dto';
 import { UsersService } from '../services/user.services';
 import { User } from '../user.entity';
@@ -25,14 +25,24 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@Request() req) {
-    return this.usersService.findUserByUsername(req.user.username);
+    return this.usersService.getUserByUsername(req.user.username);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   @UsePipes(ValidationPipe)
   async findUserById(@Param() uuid: UserCheckUuidDto) {
-    const to_return = await this.usersService.findUserById(uuid.id)
+    const to_return = await this.usersService.getUserById(uuid.id)
+    if(to_return === null){
+      throw new NotFoundException("");
+    }
+    return to_return;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(":id/meal-vouchers/:month")
+  async getMealVouchers(@Param() uuid: UserCheckUuidDto, @Param('month') month: string) {
+    const to_return = await this.usersService.getMealVouchers(uuid.id, month);
     if(to_return === null){
       throw new NotFoundException("");
     }
@@ -42,7 +52,7 @@ export class UsersController {
   // @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Body() body) {
-    let user = await this.usersService.findUserByMail(body.email);
+    let user = await this.usersService.getUserByMail(body.email);
     
     if (user.password !== body.password) {
       throw new HttpException(
@@ -57,10 +67,11 @@ export class UsersController {
     return this.authService.login(user);
   }
 
+
   @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
-    return this.usersService.findAll();
+    return this.usersService.getUsers();
   }
 
 }

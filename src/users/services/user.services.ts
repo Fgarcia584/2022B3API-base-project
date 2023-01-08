@@ -6,30 +6,37 @@ import { UserDto } from '../dto/user.dto';
 
 @Injectable()
 export class UsersService {
+  findUserById(id: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
+  async getUsers(): Promise<User[]> {
     return this.usersRepository.find();
   }
 
-  async findUserById(id: string): Promise<User | undefined> {
+  async getUserById(id: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { id: id } });
   }
-  async findUserByUsername(username: string): Promise<User | undefined> {
+  async getUserByUsername(username: string): Promise<User | undefined> {
     return this.usersRepository.findOneBy({ username });
   }
   
-  async findUserByMail(email: string): Promise<User | undefined> {
+  async getUserByMail(email: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { email: email } });
   }
   
-  async findMe(username: string): Promise<User | undefined> {
+  async getMe(username: string): Promise<User | undefined> {
     return this.usersRepository.findOne({ where: { username: username } });
   }
 
+  async getMealVouchers(id: string, month: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { id: id} });
+  }
+  
 
   createUser(body: UserDto): Promise<User> {
     const newUser = this.usersRepository.create(body);

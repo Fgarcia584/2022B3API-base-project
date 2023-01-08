@@ -34,7 +34,7 @@ export class EventController {
 
   @Post()
   async createEvent(@Body() body, @Req() req) {
-    let user = await this.usersService.findUserByUsername(req.user.username);
+    let user = await this.usersService.getUserByUsername(req.user.username);
     let todayEvents = await this.eventService.isEventToday(body, user);
     let remoteWeek = await this.eventService.isRemoteWeek(body, user);
 
@@ -45,6 +45,7 @@ export class EventController {
     if (remoteWeek.length >= 2) {
       throw new UnauthorizedException("you already have 2 remote events this week");
     }
+
     let event = new Event();
     event.date = body.date;
     event.description = body.eventDescription;
@@ -59,26 +60,26 @@ export class EventController {
   @UseGuards(JwtAuthGuard)
   async validateEvent(@Req() req, @Param("id") id: string) {
     let event = await this.eventService.getEventById(id);
-    let user = await this.usersService.findUserByUsername(req.user.username);
+    let user = await this.usersService.getUserByUsername(req.user.username);
     
     if (user.role === "Employee") {
-      throw new UnauthorizedException("you are not authorized to validate this event");
+      throw new UnauthorizedException();
     }
 
     if (user.role === "ProjectManager") {
-      let projectUsers = await this.projectUsersService.findByDateAndUser(event.date, user);
+      let projectUsers = await this.projectUsersService.getByDateAndUser(event.date, user);
       if (projectUsers) {
         for (let projectUser of projectUsers) {
-          let project = await this.projectService.findProjectById(projectUser.projectId);
+          let project = await this.projectService.getProjectById(projectUser.projectId);
           if (project.referringEmployeeId === user.id) {
             return this.eventService.setEventAccepted(event);
           } else {
             continue;
           }
         }
-        throw new UnauthorizedException("you are not authorized to validate this event");
+        throw new UnauthorizedException();
       } else {
-        throw new UnauthorizedException("you are not authorized to validate this event");
+        throw new UnauthorizedException();
       }
     }
   }
@@ -87,17 +88,16 @@ export class EventController {
   @UseGuards(JwtAuthGuard)
   async declineEvent(@Req() req, @Param("id") id: string) {
     let event = await this.eventService.getEventById(id);
-    let user = await this.usersService.findUserByUsername(req.user.username);
-    
+    let user = await this.usersService.getUserByUsername(req.user.username);
     if (user.role === "Employee") {
       throw new UnauthorizedException("you are not authorized to decline this event");
     }
 
     if (user.role === "ProjectManager") {
-      let projectUsers = await this.projectUsersService.findByDateAndUser(event.date, user);
+      let projectUsers = await this.projectUsersService.getByDateAndUser(event.date, user);
       if (projectUsers) {
         for (let projectUser of projectUsers) {
-          let project = await this.projectService.findProjectById(projectUser.projectId);
+          let project = await this.projectService.getProjectById(projectUser.projectId);
           if (project.referringEmployeeId === user.id) {
             return this.eventService.setEventDeclined(event);
           } else {

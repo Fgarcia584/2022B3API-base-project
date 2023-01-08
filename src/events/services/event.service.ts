@@ -11,8 +11,8 @@ export class EventService {
     private eventRepository: Repository<Event>,
     ) {}
 
-   getEvents(): Promise<Event[]> {
-    return this.eventRepository.find();
+  async getEvents(): Promise<Event[]> {
+    return await this.eventRepository.find();
   } 
 
   async getEventById(id: string): Promise<Event | undefined> {
@@ -34,12 +34,12 @@ export class EventService {
     return this.eventRepository.save(event);
   }
 
-  isEventToday(event: Event, user: User): Promise<Event[]> {
-    return this.eventRepository.find({ where : { date: event.date, user }});
+  async isEventToday(event: Event, user: User): Promise<Event[]> {
+    return await this.eventRepository.find({ where : { date: event.date, user }});
   }
 
-  isRemoteWeek(event: Event, user: User): Promise<Event[]> {
-    return this.eventRepository.find({ where : { user, type: "RemoteWork" }});
+  async isRemoteWeek(event: Event, user: User): Promise<Event[]> {
+    return await this.eventRepository.find({ where : { user, type: "RemoteWork" }});
   }
 
 

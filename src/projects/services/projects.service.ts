@@ -10,15 +10,15 @@ export class ProjectsService {
     private projectsRepository: Repository<Project>,
   ) {}
 
-  public async findAllProjects(): Promise<Project[]> {
+  public async getProjects(): Promise<Project[]> {
     return await this.projectsRepository.find();
   }
 
-  public async findAllProjectsForEmployee(id): Promise<Project[]> {
+  public async getProjectsForEmployee(id): Promise<Project[]> {
     return await this.projectsRepository.find({ where: { referringEmployeeId: id }, relations: ["referringEmployee"] });
   }
 
-  public async findProjectById(id: string): Promise<Project | undefined> {
+  public async getProjectById(id: string): Promise<Project | undefined> {
     return await this.projectsRepository.findOneBy({id});
   }
 

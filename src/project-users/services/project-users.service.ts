@@ -12,36 +12,36 @@ export class ProjectUsersService {
     private projectUsersRepository: Repository<ProjectUser>,
   ) {}
 
-  findAllProjectUsers(): Promise<ProjectUser[]> {
-    return this.projectUsersRepository.find();
+  async getProjectUsers(): Promise<ProjectUser[]> {
+    return await this.projectUsersRepository.find();
   }
   
-  findOneOfUser(user: User): Promise<ProjectUser[]> {
-    return this.projectUsersRepository.find({ where : { user }});
+  async getOneOfUser(user: User): Promise<ProjectUser[]> {
+    return await this.projectUsersRepository.find({ where : { user }});
   }
 
-  findProjectUsersById(id: string): Promise<ProjectUser> {
-    return this.projectUsersRepository.findOneBy({ id});
+  async getProjectUsersById(id: string): Promise<ProjectUser> {
+    return await this.projectUsersRepository.findOneBy({ id});
   }
 
-  findMyProjects(user: User): Promise<ProjectUser[]> {
-    return this.projectUsersRepository.find({ where: { user } });
+  async getMyProjects(user: User): Promise<ProjectUser[]> {
+    return await this.projectUsersRepository.find({ where: { user } });
   }
 
-  isInProject(user: User, project: Project): Promise<ProjectUser> {
-    return this.projectUsersRepository.findOneBy({ user, project });
+  async isInProject(user: User, project: Project): Promise<ProjectUser> {
+    return await this.projectUsersRepository.findOneBy({ user, project });
   }
 
-  checkBetweenDates(projectUser: ProjectUser): Promise<ProjectUser[]> {
-    return this.projectUsersRepository.find({ where : { startDate: Between(projectUser.startDate, projectUser.endDate), endDate: Between(projectUser.startDate, projectUser.endDate) }});
+  async checkBetweenDates(projectUser: ProjectUser): Promise<ProjectUser[]> {
+    return await this.projectUsersRepository.find({ where : { startDate: Between(projectUser.startDate, projectUser.endDate), endDate: Between(projectUser.startDate, projectUser.endDate) }});
   }
 
-  findByDateAndUser(date: Date, user: User): Promise<ProjectUser[]> {
-    return this.projectUsersRepository.find({ where : [{ startDate: Between(date, date) }, { endDate: Between(date, date)}]});
+  async getByDateAndUser(date: Date, user: User): Promise<ProjectUser[]> {
+    return await this.projectUsersRepository.find({ where : [{ startDate: Between(date, date) }, { endDate: Between(date, date)}]});
   }
 
-  create(projectUser: ProjectUser): Promise<ProjectUser> {
+  async create(projectUser: ProjectUser): Promise<ProjectUser> {
     let project = this.projectUsersRepository.create(projectUser);
-    return this.projectUsersRepository.save(project);
+    return await this.projectUsersRepository.save(project);
   }
 }

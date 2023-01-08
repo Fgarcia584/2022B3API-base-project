@@ -13,8 +13,8 @@ export class ProjectUsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get(':id')
   async getProjectUsers(@Req() req, @Query("projectId") projectId: string) {
-    let project = await this.projectsService.findProjectById(projectId);
-    let requester = await this.usersService.findUserById(req.user.id);
+    let project = await this.projectsService.getProjectById(projectId);
+    let requester = await this.usersService.getUserById(req.user.id);
 
     if (requester.role === "Employee" && project.referringEmployeeId !== requester.id) {
       throw new ForbiddenException("you are not authorized to view this project");
@@ -36,11 +36,11 @@ export class ProjectUsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async getAllProjectUsers(@Req() req) {
-    let projects = await this.projectUserService.findAllProjectUsers();
-    let user = await this.usersService.findUserById(req.user.id);
+    let projects = await this.projectUserService.getProjectUsers();
+    let user = await this.usersService.getUserById(req.user.id);
 
     if (user.role === "Employee") {
-      let userProjects = this.projectUserService.findOneOfUser(user);
+      let userProjects = this.projectUserService.getOneOfUser(user);
       return userProjects;
     }
     if (!projects) {
@@ -54,9 +54,9 @@ export class ProjectUsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async createProjectUser(@Body() body, @Req() req) {
-    let user = await this.usersService.findUserById(req.user.id);
-    let project = await this.projectsService.findProjectById(body.projectId);
-    let refUser = await this.usersService.findUserById(body.userId);
+    let user = await this.usersService.getUserById(req.user.id);
+    let project = await this.projectsService.getProjectById(body.projectId);
+    let refUser = await this.usersService.getUserById(body.userId);
     let errors = 0;
 
     if (user.role === "Employee") throw new UnauthorizedException("you are not authorized to create a project user");
@@ -64,7 +64,7 @@ export class ProjectUsersController {
     if (!project) throw new NotFoundException("project not found");
     if (!refUser) throw new NotFoundException("user not found");
 
-    let currentProjects = await this.projectUserService.findOneOfUser(refUser);
+    let currentProjects = await this.projectUserService.getOneOfUser(refUser);
     for (let i = 0; i < currentProjects.length; i++) {
       if (currentProjects[i].startDate <= body.startDate && currentProjects[i].endDate >= body.startDate) {
         errors++;

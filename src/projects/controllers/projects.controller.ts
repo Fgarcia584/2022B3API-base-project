@@ -21,7 +21,7 @@ export class ProjectsController {
   @Post()
   async createProject(@Req() req , @Body() body: CreateProjectDto) {
     if(req.user.role !== role.Admin) throw new UnauthorizedException();
-    const referringEmployee = await this.usersService.findUserById(body.referringEmployeeId);
+    const referringEmployee = await this.usersService.getUserById(body.referringEmployeeId);
 
     if (referringEmployee.role === role.Employee) {
       throw new UnauthorizedException("Reffering employee must be a project manager");
@@ -36,8 +36,8 @@ export class ProjectsController {
   
   @Get(':id')
   async findProjectById(@Req() req, @Param(':id') id) {
-    const to_return =  await this.projectsService.findProjectById(id);
-    let requester = await this.usersService.findUserById(req.user.id);
+    const to_return =  await this.projectsService.getProjectById(id);
+    let requester = await this.usersService.getUserById(req.user.id);
 
     if (requester.role === role.Employee && !await this.projectUsersService.isInProject(requester, to_return)) {
       throw new ForbiddenException();
@@ -53,9 +53,9 @@ export class ProjectsController {
   @Get()
   async findAllProjects(@Req() req ,) {
     if(req.user.role === role.Employee) {
-      return await this.projectsService.findAllProjectsForEmployee(req.user.id);
+      return await this.projectsService.getProjectsForEmployee(req.user.id);
     };
-    return await this.projectsService.findAllProjects();
+    return await this.projectsService.getProjects();
   }
 
 
